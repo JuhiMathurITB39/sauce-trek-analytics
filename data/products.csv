@@ -1,0 +1,25 @@
+product_id,category,product_name,unit_price,margin_pct
+P001,mayo,Classic Eggless Mayo 200g,89,0.38
+P002,mayo,Classic Eggless Mayo 400g,159,0.38
+P003,mayo,Garlic Herb Mayo 200g,99,0.38
+P004,mayo,Spicy Chipotle Mayo 200g,99,0.38
+P005,mayo,Avocado Mayo 200g,119,0.38
+P006,mayo,Classic Eggless Mayo 1kg,349,0.38
+P007,mayo,Vegan Olive Mayo 200g,129,0.38
+P008,mayo,Sriracha Mayo 200g,99,0.38
+P009,sauces,Tangy Tomato Ketchup 500g,79,0.32
+P010,sauces,Smoky BBQ Sauce 300g,99,0.32
+P011,sauces,Hot Chilli Sauce 200g,89,0.32
+P012,sauces,Schezwan Stir-Fry Sauce 250g,109,0.32
+P013,sauces,Pasta Arrabbiata Sauce 350g,139,0.32
+P014,sauces,Teriyaki Glaze 200g,129,0.32
+P015,sauces,Mustard Sauce 200g,79,0.32
+P016,sauces,Green Chutney Sauce 200g,89,0.32
+P017,dips,Hummus Classic 200g,149,0.3
+P018,dips,Hummus Roasted Red Pepper 200g,159,0.3
+P019,dips,Tzatziki Dip 200g,169,0.3
+P020,dips,Guacamole 200g,179,0.3
+P021,dips,Spinach Artichoke Dip 200g,149,0.3
+P022,dips,Baba Ganoush 200g,149,0.3
+P023,dips,Cheese & Herb Dip 200g,159,0.3
+P024,dips,Sour Cream & Onion Dip 200g,139,0.3
