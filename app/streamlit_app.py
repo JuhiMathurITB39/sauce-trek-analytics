@@ -67,7 +67,7 @@ RISK_COLORS = {"Low Risk": "#10b981", "Medium Risk": "#f59e0b", "High Risk": "#e
 @st.cache_data(ttl=3600)
 def load_master() -> pd.DataFrame:
     if not MASTER_CSV.exists():
-        st.error("⚠️ Customer master CSV not found. Please run `python run_analysis.py` first.")
+        st.error("Customer master CSV not found. Please run `python run_analysis.py` first.")
         st.stop()
     df = pd.read_csv(MASTER_CSV)
     # ensure types
@@ -101,16 +101,16 @@ def main():
         st.divider()
 
         cities = ["All"] + sorted(df_all["city"].dropna().unique().tolist())
-        sel_city = st.selectbox("🌆 Filter by City", cities)
+        sel_city = st.selectbox("Filter by City", cities)
 
         segments = ["All"] + sorted(df_all["segment_label"].dropna().unique().tolist())
-        sel_seg  = st.selectbox("🎯 Filter by Segment", segments)
+        sel_seg  = st.selectbox("Filter by Segment", segments)
 
         risk_tiers = ["All"] + ["Low Risk","Medium Risk","High Risk"]
-        sel_risk   = st.selectbox("🚨 Filter by Churn Risk", risk_tiers)
+        sel_risk   = st.selectbox("Filter by Churn Risk", risk_tiers)
 
         min_rev, max_rev = int(df_all["monetary"].min()), int(df_all["monetary"].max())
-        rev_range = st.slider("💰 Revenue Range (₹)", min_rev, max_rev, (min_rev, max_rev))
+        rev_range = st.slider("Revenue Range (₹)", min_rev, max_rev, (min_rev, max_rev))
 
         st.divider()
         st.markdown(f"**Dataset:** {len(df_all):,} customers")
@@ -160,7 +160,7 @@ def main():
     col_left, col_right = st.columns([1.2, 1])
 
     with col_left:
-        st.markdown('<p class="section-header">📊 Customer Segments</p>', unsafe_allow_html=True)
+        st.markdown('<p class="section-header"> Customer Segments</p>', unsafe_allow_html=True)
         seg_data = df.groupby("segment_label").agg(
             customers=("customer_id","count"),
             revenue=("monetary","sum"),
@@ -184,7 +184,7 @@ def main():
         st.plotly_chart(fig_seg, use_container_width=True)
 
     with col_right:
-        st.markdown('<p class="section-header">🚨 Churn Risk Distribution</p>', unsafe_allow_html=True)
+        st.markdown('<p class="section-header"> Churn Risk Distribution</p>', unsafe_allow_html=True)
         risk_data = df["churn_risk_tier"].value_counts().reset_index()
         risk_data.columns = ["tier","count"]
         risk_data["color"] = risk_data["tier"].map(RISK_COLORS)
@@ -208,7 +208,7 @@ def main():
     col3, col4 = st.columns(2)
 
     with col3:
-        st.markdown('<p class="section-header">🎯 RFM Scatter Map</p>', unsafe_allow_html=True)
+        st.markdown('<p class="section-header"> RFM Scatter Map</p>', unsafe_allow_html=True)
         sample = df.sample(min(2000, len(df)), random_state=42)
         fig_rfm = px.scatter(
             sample,
@@ -228,7 +228,7 @@ def main():
         st.plotly_chart(fig_rfm, use_container_width=True)
 
     with col4:
-        st.markdown('<p class="section-header">📈 Revenue Concentration (Pareto)</p>', unsafe_allow_html=True)
+        st.markdown('<p class="section-header"> Revenue Concentration (Pareto)</p>', unsafe_allow_html=True)
         pareto = df.sort_values("monetary", ascending=False).copy()
         pareto["cum_rev_pct"] = pareto["monetary"].cumsum() / pareto["monetary"].sum() * 100
         pareto["cum_cust_pct"] = (np.arange(1, len(pareto)+1) / len(pareto)) * 100
@@ -266,7 +266,7 @@ def main():
     col5, col6 = st.columns(2)
 
     with col5:
-        st.markdown('<p class="section-header">🔴 Churn Probability Distribution</p>', unsafe_allow_html=True)
+        st.markdown('<p class="section-header"> Churn Probability Distribution</p>', unsafe_allow_html=True)
         fig_hist = go.Figure()
         for label, color, name in [(0,"#10b981","Active"),(1,"#ef4444","Churned")]:
             subset = df[df["is_churned"]==label]["churn_prob"]
@@ -285,7 +285,7 @@ def main():
         st.plotly_chart(fig_hist, use_container_width=True)
 
     with col6:
-        st.markdown('<p class="section-header">💰 Predicted LTV by Segment</p>', unsafe_allow_html=True)
+        st.markdown('<p class="section-header"> Predicted LTV by Segment</p>', unsafe_allow_html=True)
         if "ltv_predicted" in df.columns:
             ltv_data = df.groupby("segment_label")["ltv_predicted"].median().sort_values(ascending=False).reset_index()
             fig_ltv = px.bar(
@@ -303,7 +303,7 @@ def main():
     # ─────────────────────────────────────────────────────────────────────
     # ROW 5: Discount Analysis
     # ─────────────────────────────────────────────────────────────────────
-    st.markdown('<p class="section-header">🏷️ Discount Dependency Analysis</p>', unsafe_allow_html=True)
+    st.markdown('<p class="section-header"> Discount Dependency Analysis</p>', unsafe_allow_html=True)
     col7, col8 = st.columns(2)
 
     with col7:
@@ -356,7 +356,7 @@ def main():
     # ─────────────────────────────────────────────────────────────────────
     # ROW 7: Segment Summary Table
     # ─────────────────────────────────────────────────────────────────────
-    st.markdown('<p class="section-header">📋 Segment Summary</p>', unsafe_allow_html=True)
+    st.markdown('<p class="section-header"> Segment Summary</p>', unsafe_allow_html=True)
     total_rev_all = df["monetary"].sum()
     seg_table = df.groupby("segment_label").agg(
         Customers=("customer_id","count"),
@@ -374,7 +374,7 @@ def main():
     # ─────────────────────────────────────────────────────────────────────
     # Insights Report Tab
     # ─────────────────────────────────────────────────────────────────────
-    with st.expander("📄 View Full Consulting Insights Report"):
+    with st.expander(" View Full Consulting Insights Report"):
         if REPORT_MD.exists():
             st.markdown(REPORT_MD.read_text(encoding="utf-8"))
         else:
