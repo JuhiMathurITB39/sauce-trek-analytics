@@ -56,9 +56,9 @@ MASTER_PATH = OUT_DIR  / "reports" / "customer_master.csv"
 def maybe_generate_data():
     required = ["customers.csv","orders.csv","order_items.csv","products.csv"]
     if all((DATA_DIR / f).exists() for f in required):
-        print("📂  Data files exist. Skipping generation.")
+        print(" Data files exist. Skipping generation.")
         return
-    print("🏭  Generating synthetic dataset...")
+    print("Generating synthetic dataset...")
     import subprocess
     result = subprocess.run(
         [sys.executable, str(DATA_DIR / "generate_data.py")],
@@ -115,13 +115,13 @@ def generate_insights_report(
 
     top_segs = segment_summary.head(2)["segment_label"].tolist()
 
-    report = f"""# 📊 Sauce Trek — Customer Retention & Revenue Intelligence Report
+    report = f"""# Sauce Trek — Customer Retention & Revenue Intelligence Report
 **Generated:** {datetime.now().strftime('%d %b %Y, %H:%M')}
 **Data window:** Jan 2022 – Jun 2024  |  **Reference date:** 30 Jun 2024
 
 ---
 
-## 🎯 Executive Summary
+## Executive Summary
 
 | KPI | Value |
 |-----|-------|
@@ -135,7 +135,7 @@ def generate_insights_report(
 
 ---
 
-## 💡 Consulting-Grade Business Insights
+## Business Insights
 
 ### Insight 1 — Pareto Revenue Concentration
 > **The top {20:.0f}% of customers account for {top_20_pct:.1f}% of total revenue.**
@@ -206,7 +206,7 @@ They are ideal candidates for: subscription models, D2C bundles, and brand ambas
 
 ---
 
-## 🚀 Strategic Recommendations
+## Strategic Recommendations
 
 ### 1. Protect Top-20% with a VIP Loyalty Programme
 - Launch a tiered points system (Bronze → Silver → Gold → Platinum)
@@ -251,7 +251,7 @@ They are ideal candidates for: subscription models, D2C bundles, and brand ambas
 
 ---
 
-## 📁 Output Files
+## Output Files
 
 All charts saved to `outputs/charts/`
 Customer master table: `outputs/reports/customer_master.csv`
@@ -286,7 +286,7 @@ def main(skip_data: bool = False):
     if not skip_data:
         maybe_generate_data()
 
-    print("\n📥  Loading data into SQLite...")
+    print("\n Loading data into SQLite...")
     datasets = load_all(verbose=True)
     quick_stats(datasets)
 
@@ -304,17 +304,17 @@ def main(skip_data: bool = False):
 
     # ── 5. Save master table ──────────────────────────────────────────────
     master.to_csv(MASTER_PATH, index=False)
-    print(f"  💾  Customer master → {MASTER_PATH}")
+    print(f"   Customer master → {MASTER_PATH}")
 
     # ── 6. Insights report ────────────────────────────────────────────────
-    print("\n📝  Generating consulting insights report...")
+    print("\n Generating consulting insights report...")
     report_md = generate_insights_report(master, seg_summary, churn_result, cohort_df)
     REPORT_PATH.write_text(report_md, encoding="utf-8")
-    print(f"  📄  Report saved → {REPORT_PATH}")
+    print(f"   Report saved → {REPORT_PATH}")
 
     # ── Done ──────────────────────────────────────────────────────────────
     print("\n" + "=" * 60)
-    print("  ✅  ALL STEPS COMPLETE")
+    print("   ALL STEPS COMPLETE")
     print("=" * 60)
     print(f"\n  Charts  : {OUT_DIR / 'charts'}  ({len(list((OUT_DIR/'charts').glob('*.png')))} files)")
     print(f"  Report  : {REPORT_PATH}")
